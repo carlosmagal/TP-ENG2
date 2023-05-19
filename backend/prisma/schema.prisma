@@ -13,7 +13,7 @@ datasource db {
 model User {
   name String
   id String @id @default(uuid())
-  email String
+  email String @unique
   hash String
   diets Diet[]
 }
