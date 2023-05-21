@@ -1,0 +1,25 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  --green1: #6f9f15;
+  --green2: #588407;
+  --green3: #1d2d00;
+  --green4: #ffffff;
+
+  --yellow1: #fac63c;
+  --yellow2: #d7a41f;
+  --yellow3: #866100;
+  --yellow4: #866100;
+  --yellow5: #553f04;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.j-center {
+  justify-content: center;
+}

@@ -1,0 +1,19 @@
+.home {
+}
+
+.home header {
+  width: 100%;
+  padding: 16px;
+  background-color: var(--green1);
+}
+
+.home main {
+  padding: 32px;
+  width: 100%;
+}
+
+.home main .cont-header {
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
