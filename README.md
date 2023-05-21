@@ -2,7 +2,7 @@
 
 ## Integrantes
 - Carlos Margalhães Silva
-- Luís
+- Luis Gabriel Caetano Diniz
 - Renato Silva Santos
 
 ## Descrição do Projeto
@@ -13,6 +13,6 @@ Este projeto consiste na implementação de uma aplicação web para o gerenciam
 - Prisma
 - NestJS
 
-O projeto foi desenvolvido utilizando a biblioteca React para a criação da interface de usuári. O Prisma foi utilizado como ferramenta de mapeamento objeto-relacional (ORM) para facilitar o acesso e manipulação dos dados no banco de dados. E, por fim, o NestJS, um framework de aplicação web em Node.js, foi utilizado para criar a API do servidor.
+O projeto foi desenvolvido utilizando a biblioteca React para a criação da interface de usuári. O Prisma foi utilizado como ferramenta de mapeamento objeto-relacional (ORM) para facilitar o acesso e manipulação dos dados no banco de dados. E, por fim, o NestJS, foi utilizado para criar a API do servidor.
 
 
