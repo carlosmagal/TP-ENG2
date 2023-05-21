@@ -20,35 +20,40 @@ function SignUp() {
     setLoading(true);
 
     try {
-      const obj = {
+      const userData = {
         name,
         email,
         password,
       };
-     
-      const response = await api.post("/auth/signup", obj);
-      localStorage.setItem("token", response.data.access_token);
-         
+      createUser(userData);
       toast.success("Usuário criado com sucesso!");
       navigate("/home");
-
-
     } catch (error) {
-
-      if (error.status === 400) {
-        toast.error("Bad request: Invalid user data");
-      } else if (error.status === 500) {
-        toast.error("Internal server error");
-      } else {
-        toast.error("Erro ao criar usuário");
-      }
-
-      console.log(error);
+      handleSignUpError(error);
     } finally {
       setLoading((prev) => !prev);
     }
       
   };
+
+  const createUser = async (userData) => {
+    
+    const response = await api.post("/auth/signup", userData);
+    const { access_token } = response.data;
+    localStorage.setItem("token", access_token);
+    
+  }
+
+  const handleSignUpError = (error) => {
+    if (error.status === 400) {
+      toast.error("Bad request: Invalid user data");
+    } else if (error.status === 500) {
+      toast.error("Internal server error");
+    } else {
+      toast.error("Erro ao criar usuário");
+    }
+  };
+
 
   return (
     <Grid container>
