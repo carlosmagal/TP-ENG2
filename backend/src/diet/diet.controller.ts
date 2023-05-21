@@ -6,11 +6,16 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { User } from 'src/auth/decorator';
 import { DietService } from './diet.service';
 import { CreateDietDto, EditDietDto } from './dto';
+import { JwtGuard } from 'src/auth/guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@UseGuards(JwtGuard)
 @Controller('diet')
 export class DietController {
   constructor(private dietService: DietService) {}

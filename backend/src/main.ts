@@ -15,9 +15,10 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('API Porta Soluções')
+    .setTitle('API TP ENG 2')
     .setVersion('1.0')
-    .addTag('porta')
+    .addBearerAuth()
+    .addTag('tp2')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
