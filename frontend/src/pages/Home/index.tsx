@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 
 import DietCard from "./components/DietCard";
@@ -8,37 +8,45 @@ import DietModal from "./components/DietModal";
 import dietImages from "../../utils/dietImages";
 
 import "./styles.css";
+import api from "../../api";
 
 function HomePage() {
-  const [username] = useState("Fulano");
+  const [username, setUsername] = useState("Fulano");
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState(null);
 
-  const [diets] = useState<any>([
-    {
-      id: 1,
-      name: "teste",
-      beginDate: "2023-05-20T22:03:12",
-      endDate: "2023-06-21T22:03:12",
-    },
-    {
-      id: 2,
-      name: "teste",
-      beginDate: "2023-06-22T22:03:12",
-      endDate: "2023-07-21T22:03:12",
-    },
-    {
-      id: 3,
-      name: "teste",
-      beginDate: "2023-07-22T22:03:12",
-      endDate: "2023-08-20T22:03:12",
-    },
-  ]);
+  const [diets, setDiets] = useState<any>([]);
 
   const handleAddDiet = () => {
     setModalData(null);
     setOpenModal(true);
   };
+
+  const handleCreateDiet = async (data: any) => {
+    try {
+      await api.post("/diet", data);
+
+      await handleLoadUser();
+      setOpenModal(false);
+      setModalData(null);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLoadUser = async () => {
+    try {
+      const response: any = await api.get("/diet");
+      // setDiets(response?.data)
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleLoadUser();
+  }, []);
 
   return (
     <div className="home">
@@ -89,14 +97,14 @@ function HomePage() {
                 <Box gridColumn="span 4" key={i}>
                   <DietCard
                     description={`${new Date(
-                      diet.beginDate
+                      diet.startDate
                     ).toLocaleDateString()} - ${
                       diet.endDate
                         ? new Date(diet.endDate).toLocaleDateString()
                         : "atualmente"
                     }`}
                     img={dietImages[i]}
-                    name={diet.name}
+                    name={diet.title}
                     onClick={() => {
                       setModalData(diet);
                       setOpenModal(true);
@@ -112,8 +120,8 @@ function HomePage() {
         open={openModal}
         setOpen={setOpenModal}
         initialData={modalData}
-        onClick={() => {
-          console.log("d");
+        onClick={(data: any) => {
+          handleCreateDiet(data);
         }}
       />
     </div>

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -21,14 +22,30 @@ export default function DietModal({
   initialData,
   onClick,
 }: DietModalInterface) {
-  // const [];
-
-  const handleClose = () => setOpen(false);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [breakfast, setBreakfast] = useState("");
+  const [lunch, setLunch] = useState("");
+  const [dinner, setDinner] = useState("");
+  const [observations, setObservations] = useState("");
+  const [title, setTitle] = useState("");
 
   const readMode = !!initialData;
 
+  const handleClose = () => setOpen(false);
+
   const handleSubmit = () => {
-    onClick();
+    const data = {
+      startDate: new Date(startDate).toISOString().split(".")?.at(0),
+      endDate: new Date(endDate).toISOString().split(".")?.at(0),
+      breakfast,
+      lunch,
+      dinner,
+      observations,
+      title,
+    };
+
+    onClick(data);
   };
 
   return (
@@ -53,6 +70,21 @@ export default function DietModal({
             }}
           >
             <Box display="grid" gridTemplateColumns="repeat(8, 1fr)" gap={2}>
+              <Box gridColumn="span 8">
+                <TextField
+                  disabled={readMode}
+                  margin="dense"
+                  label="Nome"
+                  type="text"
+                  variant="outlined"
+                  fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  required
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </Box>
+
               <Box gridColumn="span 4">
                 <TextField
                   disabled={readMode}
@@ -63,6 +95,8 @@ export default function DietModal({
                   fullWidth
                   InputLabelProps={{ shrink: true }}
                   required
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
                 />
               </Box>
               <Box gridColumn="span 4">
@@ -75,6 +109,8 @@ export default function DietModal({
                   fullWidth
                   InputLabelProps={{ shrink: true }}
                   required
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
                 />
               </Box>
               <Box gridColumn="span 8">
@@ -89,20 +125,8 @@ export default function DietModal({
                   fullWidth
                   InputLabelProps={{ shrink: true }}
                   required
-                />
-              </Box>
-              <Box gridColumn="span 8">
-                <TextField
-                  disabled={readMode}
-                  margin="dense"
-                  label="Café da manhã"
-                  type="text"
-                  multiline
-                  rows={4}
-                  variant="outlined"
-                  fullWidth
-                  InputLabelProps={{ shrink: true }}
-                  required
+                  value={breakfast}
+                  onChange={(e) => setBreakfast(e.target.value)}
                 />
               </Box>
               <Box gridColumn="span 8">
@@ -117,6 +141,8 @@ export default function DietModal({
                   fullWidth
                   InputLabelProps={{ shrink: true }}
                   required
+                  value={lunch}
+                  onChange={(e) => setLunch(e.target.value)}
                 />
               </Box>
               <Box gridColumn="span 8">
@@ -131,6 +157,8 @@ export default function DietModal({
                   fullWidth
                   InputLabelProps={{ shrink: true }}
                   required
+                  value={dinner}
+                  onChange={(e) => setDinner(e.target.value)}
                 />
               </Box>
               <Box gridColumn="span 8">
@@ -144,6 +172,8 @@ export default function DietModal({
                   variant="outlined"
                   fullWidth
                   InputLabelProps={{ shrink: true }}
+                  value={observations}
+                  onChange={(e) => setObservations(e.target.value)}
                 />
               </Box>
             </Box>
