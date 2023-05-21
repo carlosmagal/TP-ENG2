@@ -15,14 +15,14 @@ function HomePage() {
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState(null);
 
-  const [diets, setDiets] = useState<any>([]);
+  const [diets, setDiets] = useState([]);
 
   const handleAddDiet = () => {
     setModalData(null);
     setOpenModal(true);
   };
 
-  const handleCreateDiet = async (data: any) => {
+  const handleCreateDiet = async (data) => {
     try {
       await api.post("/diet", data);
 
@@ -36,7 +36,7 @@ function HomePage() {
 
   const handleLoadUser = async () => {
     try {
-      const response: any = await api.get("/diet");
+      const response = await api.get("/diet");
       // setDiets(response?.data)
       console.log(response);
     } catch (error) {
@@ -93,7 +93,7 @@ function HomePage() {
 
           <section>
             <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
-              {diets.map((diet: any, i: any) => (
+              {diets.map((diet, i) => (
                 <Box gridColumn="span 4" key={i}>
                   <DietCard
                     description={`${new Date(
@@ -120,7 +120,7 @@ function HomePage() {
         open={openModal}
         setOpen={setOpenModal}
         initialData={modalData}
-        onClick={(data: any) => {
+        onClick={(data) => {
           handleCreateDiet(data);
         }}
       />

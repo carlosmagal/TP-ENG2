@@ -16,25 +16,26 @@ import { toast } from "react-toastify";
 import api from "../../api/index";
 
 function LoginPage() {
-  const [email, setEmail] = React.useState<string>("");
-  const [password, setPassword] = React.useState<string>("");
-  const [rememberMe, setRememberMe] = React.useState<boolean>(false);
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [rememberMe, setRememberMe] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
   const navigate = useNavigate();
 
-  const handleLogin = async (e: FormEvent) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const response: any = await api.post("/auth/signin", { email, password });
+      const response = await api.post("/auth/signin", { email, password });
 
       localStorage.setItem("token", response?.data?.access_token);
 
       navigate("/home");
-    } catch (error: any) {
-      const message = error?.response?.data?.message || "Erro ao logar usuário";
+    } catch (error) {
+      const message = "Erro ao logar usuário";
+      // const message = error?.response?.data?.message || "Erro ao logar usuário";
       toast.error(message);
     } finally {
       setLoading(false);

@@ -9,19 +9,14 @@ import {
   TextField,
 } from "@mui/material";
 
-interface DietModalInterface {
-  open: boolean;
-  setOpen: (v: boolean) => void;
-  initialData?: any;
-  onClick: any;
-}
+// interface DietModalInterface {
+//   open: boolean;
+//   setOpen: (v: boolean) => void;
+//   initialData?: any;
+//   onClick: any;
+// }
 
-export default function DietModal({
-  open,
-  setOpen,
-  initialData,
-  onClick,
-}: DietModalInterface) {
+export default function DietModal({ open, setOpen, initialData, onClick }) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [breakfast, setBreakfast] = useState("");

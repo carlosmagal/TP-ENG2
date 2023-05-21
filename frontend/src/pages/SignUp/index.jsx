@@ -7,14 +7,14 @@ import { toast } from "react-toastify";
 import api from "../../api/index";
 
 function SignUp() {
-  const [email, setEmail] = React.useState<string>("");
-  const [name, setName] = React.useState<string>("");
-  const [password, setPassword] = React.useState<string>("");
+  const [email, setEmail] = React.useState("");
+  const [name, setName] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
   const navigate = useNavigate();
 
-  const handleSignUp = async (e: FormEvent) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -25,7 +25,7 @@ function SignUp() {
     };
 
     try {
-      const response: any = await api.post("/auth/signup", obj);
+      const response = await api.post("/auth/signup", obj);
 
       localStorage.setItem("token", response?.data?.access_token);
 
