@@ -14,6 +14,7 @@ import {
   
   function SignUp() {
     const [email, setEmail] = React.useState<string>('');
+    const [name, setName] = React.useState<string>('');
     const [password, setPassword] = React.useState<string>('');
   
   
@@ -66,11 +67,19 @@ import {
               >
               <form onSubmit={handleSignUp}>
                 <TextField 
+                  label="Nome" 
+                  variant="outlined"
+                  fullWidth
+                  value={name}
+                  onChange={(e) => setName(e.target.value)} 
+                  />
+                <TextField 
                   label="Email" 
                   variant="outlined"
                   fullWidth
                   value={email}
                   onChange={(e) => setEmail(e.target.value)} 
+                  style={{ marginTop: '1rem' }}
                   />
                 <TextField 
                   label="Senha" 
