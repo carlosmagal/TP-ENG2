@@ -1,5 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import LoginPage from "./pages/Login";
 import HomePage from "./pages/Home";
@@ -32,9 +34,12 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <MuiThemeProvider theme={theme}>
-      <RouterProvider router={router} />
-    </MuiThemeProvider>
+    <>
+      <MuiThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </MuiThemeProvider>
+      <ToastContainer />
+    </>
   );
 }
 

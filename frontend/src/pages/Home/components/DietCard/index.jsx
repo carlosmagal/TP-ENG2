@@ -1,14 +1,15 @@
 import { Button, Typography } from "@mui/material";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-interface DietCardProps {
-  name: string;
-  description: string;
-  onClick: any;
-  img: string;
-}
+// interface DietCardProps {
+//   name: string;
+//   description: string;
+//   onClick: any;
+//   img: string;
+// }
 
-function DietCard({ description, name, onClick, img }: DietCardProps) {
+// function DietCard({ description, name, onClick, img }: DietCardProps) {
+function DietCard({ description, name, onClick, img }) {
   return (
     <div
       className="d-flex"
