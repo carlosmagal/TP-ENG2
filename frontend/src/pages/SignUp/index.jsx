@@ -14,22 +14,49 @@ function SignUp() {
 
   const navigate = useNavigate();
 
-  const handleSignUp = async (obj) => {
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
     try {
+      const obj = {
+        name,
+        email,
+        password,
+      };
+     
       const response = await api.post("/auth/signup", obj);
+      localStorage.setItem("token", response.data.access_token);
+         
+      toast.success("Usuário criado com sucesso!");
+      navigate("/home");
 
-      localStorage.setItem("token", response?.data?.access_token);
 
-      handleSuccess();
     } catch (error) {
-      toast.error("Erro ao criar usuário");
+
+      if (error.status === 400) {
+        toast.error("Bad request: Invalid user data");
+      } else if (error.status === 500) {
+        toast.error("Internal server error");
+      } else {
+        toast.error("Erro ao criar usuário");
+      }
+
+      console.log(error);
+    } finally {
+      setLoading((prev) => !prev);
     }
+      
   };
 
-  const handleSuccess = () => {
-    toast.success("Usuário criado com sucesso!");
-    navigate("/home");
-  };
+
+
+
+
+
+
+
 
   return (
     <Grid container>
@@ -74,18 +101,7 @@ function SignUp() {
               />
             </Grid>
             <Grid item xs={12}>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setLoading(true);
-                  handleSignUp({
-                    name,
-                    email,
-                    password,
-                  });
-                  setLoading(false);
-                }}
-              >
+              <form onSubmit={handleSignUp}>
                 <TextField
                   label="Nome"
                   variant="outlined"
