@@ -37,8 +37,10 @@ export class DietService {
   createDiet(userId: string, dto: CreateDietDto) {
     return this.prisma.diet.create({
       data: {
-        userId,
         ...dto,
+        startDate: new Date(dto.startDate),
+        endDate: new Date(dto.endDate),
+        userId,
       },
     });
   }
@@ -63,6 +65,9 @@ export class DietService {
       },
       data: {
         ...dto,
+        startDate: new Date(dto.startDate),
+        endDate: new Date(dto.endDate),
+        userId,
       },
     });
   }
