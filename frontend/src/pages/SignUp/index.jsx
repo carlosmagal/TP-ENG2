@@ -14,29 +14,21 @@ function SignUp() {
 
   const navigate = useNavigate();
 
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    const obj = {
-      name,
-      email,
-      password,
-    };
-
+  const handleSignUp = async (obj) => {
     try {
       const response = await api.post("/auth/signup", obj);
 
       localStorage.setItem("token", response?.data?.access_token);
 
-      toast.success("Usuário criado com sucesso!");
-      navigate("/home");
+      handleSuccess();
     } catch (error) {
       toast.error("Erro ao criar usuário");
-      console.log(error);
-    } finally {
-      setLoading(false);
     }
+  };
+
+  const handleSuccess = () => {
+    toast.success("Usuário criado com sucesso!");
+    navigate("/home");
   };
 
   return (
@@ -82,7 +74,18 @@ function SignUp() {
               />
             </Grid>
             <Grid item xs={12}>
-              <form onSubmit={handleSignUp}>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setLoading(true);
+                  handleSignUp({
+                    name,
+                    email,
+                    password,
+                  });
+                  setLoading(false);
+                }}
+              >
                 <TextField
                   label="Nome"
                   variant="outlined"

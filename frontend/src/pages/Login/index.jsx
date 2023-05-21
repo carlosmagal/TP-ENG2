@@ -26,21 +26,30 @@ function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+  
     try {
       const response = await api.post("/auth/signin", { email, password });
+  
+      if (response.status === 200) {
+        const { access_token, expires_in } = response?.data;
 
-      localStorage.setItem("token", response?.data?.access_token);
-
-      navigate("/home");
+        const currentTime = new Date().getTime();
+        const expirationTime = currentTime + expires_in * 1000; // Convert seconds to milliseconds
+        localStorage.setItem("token", access_token);
+        localStorage.setItem("tokenExpiration", expirationTime);
+  
+        navigate("/home");
+      } else {
+        throw new Error("Invalid response status");
+      }
     } catch (error) {
       const message = "Erro ao logar usuário";
-      // const message = error?.response?.data?.message || "Erro ao logar usuário";
       toast.error(message);
     } finally {
-      setLoading(false);
+      setLoading((prev) => !prev);
     }
   };
+
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
