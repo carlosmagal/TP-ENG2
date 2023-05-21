@@ -29,27 +29,30 @@ function LoginPage() {
   
     try {
       const response = await api.post("/auth/signin", { email, password });
-  
-      if (response.status === 200) {
-        const { access_token, expires_in } = response?.data;
-
-        const currentTime = new Date().getTime();
-        const expirationTime = currentTime + expires_in * 1000; // Convert seconds to milliseconds
-        localStorage.setItem("token", access_token);
-        localStorage.setItem("tokenExpiration", expirationTime);
-  
-        navigate("/home");
-      } else {
-        throw new Error("Invalid response status");
-      }
+      saveToken(response.data);
+      navigate("/home");
     } catch (error) {
-      const message = "Erro ao logar usuário";
-      toast.error(message);
+      handleLoginError(error);
     } finally {
       setLoading((prev) => !prev);
     }
   };
 
+  const saveToken = (data) => {
+    const { access_token, expires_in } = data;
+    const currentTime = new Date().getTime();
+    const expirationTime = currentTime + expires_in * 1000;
+    localStorage.setItem("token", access_token);
+    localStorage.setItem("tokenExpiration", expirationTime);
+  }
+
+  const handleLoginError = (error) => {
+    let message = "Erro ao logar usuário";
+    if (error.response && error.response.status === 401) {
+      message = "Credenciais inválidas";
+    }
+    toast.error(message);
+  };
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
