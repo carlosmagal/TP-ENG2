@@ -21,24 +21,24 @@ export class DietController {
   constructor(private dietService: DietService) {}
 
   @Get()
-  getDiets(@User('id') userId) {
+  getDiets(@User('id') userId: string) {
     return this.dietService.getDiets(userId);
   }
 
   @Get(':id')
-  getDietById(@User('id') userId, @Param('id') dietId) {
+  getDietById(@User('id') userId: string, @Param('id') dietId: string) {
     return this.dietService.getDietById(userId, dietId);
   }
 
   @Post()
-  createDiet(@User('id') userId, @Body() dto: CreateDietDto) {
+  createDiet(@User('id') userId: string, @Body() dto: CreateDietDto) {
     return this.dietService.createDiet(userId, dto);
   }
 
   @Patch(':id')
   updateDietById(
-    @User('id') userId,
-    @Param('id') dietId,
+    @User('id') userId: string,
+    @Param('id') dietId: string,
     @Body() dto: EditDietDto,
   ) {
     return this.dietService.updateDietById(userId, dietId, dto);

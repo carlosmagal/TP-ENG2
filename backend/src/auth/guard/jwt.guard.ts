@@ -5,36 +5,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
 import { PrismaService } from 'src/prisma/prisma.service';
 
-async function manualJwtExtraction(
-  context: ExecutionContext,
-  config: ConfigService,
-  jwt: JwtService,
-  prisma: PrismaService,
-) {
-  const req = context.switchToHttp().getRequest();
-  const authHeader: string = req.headers.authorization;
-  const splitHeader = authHeader.split('Bearer ');
-  const token = splitHeader[splitHeader.length - 1];
-  const jwtSecret = config.get('JWT_SECRET');
-  try {
-    const payload: {
-      sub: string;
-      email: string;
-    } = jwt.verify(token, {
-      secret: jwtSecret,
-    });
-    const userData = await prisma.user.findUnique({
-      where: {
-        id: payload.sub,
-      },
-    });
-    req.user = userData;
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
 @Injectable()
 export class JwtGuard implements CanActivate {
   // constructor() {
@@ -46,7 +16,30 @@ export class JwtGuard implements CanActivate {
     private prisma: PrismaService,
   ) {}
 
-  canActivate(context: ExecutionContext) {
-    return manualJwtExtraction(context, this.config, this.jwt, this.prisma);
+  async canActivate(context: ExecutionContext) {
+    {
+      const req = context.switchToHttp().getRequest();
+      const authHeader: string = req.headers.authorization;
+      const splitHeader = authHeader.split('Bearer ');
+      const token = splitHeader[splitHeader.length - 1];
+      const jwtSecret = this.config.get('JWT_SECRET');
+      try {
+        const payload: {
+          sub: string;
+          email: string;
+        } = this.jwt.verify(token, {
+          secret: jwtSecret,
+        });
+        const userData = await this.prisma.user.findUnique({
+          where: {
+            id: payload.sub,
+          },
+        });
+        req.user = userData;
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
   }
 }
