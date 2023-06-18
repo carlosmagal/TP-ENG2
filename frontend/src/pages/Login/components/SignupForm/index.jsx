@@ -51,15 +51,15 @@ function SignupForm() {
   };
 
   return (
-    <Grid container>
-      <Grid item xs={6}>
-        <img
-          src="src/assets/background.jpg"
-          alt="Background"
-          style={{ width: "100%", height: "100vh", objectFit: "cover" }}
-        />
-      </Grid>
-
+    <Grid
+      item
+      xs={6}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <Grid
         item
         xs={6}
