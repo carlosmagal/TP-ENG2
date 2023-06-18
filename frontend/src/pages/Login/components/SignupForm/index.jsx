@@ -4,16 +4,15 @@ import React, { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import api from "../../api/index";
+import api from "../../../../api/index";
 
-function SignUp() {
+function SignupForm() {
   const [email, setEmail] = React.useState("");
   const [name, setName] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
   const navigate = useNavigate();
-
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -33,16 +32,13 @@ function SignUp() {
     } finally {
       setLoading((prev) => !prev);
     }
-      
   };
 
   const createUser = async (userData) => {
-    
     const response = await api.post("/auth/signup", userData);
     const { access_token } = response.data;
     localStorage.setItem("token", access_token);
-    
-  }
+  };
 
   const handleSignUpError = (error) => {
     if (error.status === 400) {
@@ -53,7 +49,6 @@ function SignUp() {
       toast.error("Erro ao criar usuário");
     }
   };
-
 
   return (
     <Grid container>
@@ -151,4 +146,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default SignupForm;
