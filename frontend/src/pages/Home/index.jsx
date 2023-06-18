@@ -9,9 +9,10 @@ import dietImages from "../../utils/dietImages";
 
 import "./styles.css";
 import api from "../../api";
+import { toast } from "react-toastify";
 
 function HomePage() {
-  const [username, setUsername] = useState("Fulano");
+  const [username, setUsername] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState(null);
 
@@ -25,10 +26,9 @@ function HomePage() {
   const handleCreateDiet = async (data) => {
     try {
       await api.post("/diet", data);
+      toast.success("Dieta criada com sucesso!");
 
       await handleLoadUser();
-      setOpenModal(false);
-      setModalData(null);
     } catch (error) {
       console.log(error);
     }
@@ -37,8 +37,7 @@ function HomePage() {
   const handleLoadUser = async () => {
     try {
       const response = await api.get("/diet");
-      // setDiets(response?.data)
-      console.log(response);
+      setDiets(response?.data);
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +65,7 @@ function HomePage() {
                 }}
               />
               <Typography variant="h5" gutterBottom>
-                Olá, {username}!
+                Seja bem vindo!
               </Typography>
             </div>
             <div>
@@ -79,6 +78,7 @@ function HomePage() {
                   backgroundColor: "#FAC63C",
                   fontWeight: "900",
                 }}
+                data-testid="add-diet"
               >
                 Adicionar dieta
               </Button>
@@ -120,8 +120,13 @@ function HomePage() {
         open={openModal}
         setOpen={setOpenModal}
         initialData={modalData}
-        onClick={(data) => {
-          handleCreateDiet(data);
+        onClose={() => {
+          setModalData(null);
+        }}
+        onClick={async (data) => {
+          await handleCreateDiet(data);
+          setOpenModal(false);
+          setModalData(null);
         }}
       />
     </div>

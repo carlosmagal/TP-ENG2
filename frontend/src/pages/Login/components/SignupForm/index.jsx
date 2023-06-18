@@ -4,9 +4,9 @@ import React, { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import api from "../../api/index";
+import api from "../../../../api/index";
 
-function SignUp() {
+function SignupForm() {
   const [email, setEmail] = React.useState("");
   const [name, setName] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -14,33 +14,52 @@ function SignUp() {
 
   const navigate = useNavigate();
 
-  const handleSignUp = async (obj) => {
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
     try {
-      const response = await api.post("/auth/signup", obj);
-
-      localStorage.setItem("token", response?.data?.access_token);
-
-      handleSuccess();
+      const userData = {
+        name,
+        email,
+        password,
+      };
+      await createUser(userData);
+      toast.success("Usuário criado com sucesso!");
+      navigate("/home");
     } catch (error) {
+      handleSignUpError(error);
+    } finally {
+      setLoading((prev) => !prev);
+    }
+  };
+
+  const createUser = async (userData) => {
+    const response = await api.post("/auth/signup", userData);
+    const { access_token } = response.data;
+    localStorage.setItem("token", access_token);
+  };
+
+  const handleSignUpError = (error) => {
+    if (error.status === 400) {
+      toast.error("Bad request: Invalid user data");
+    } else if (error.status === 500) {
+      toast.error("Internal server error");
+    } else {
       toast.error("Erro ao criar usuário");
     }
   };
 
-  const handleSuccess = () => {
-    toast.success("Usuário criado com sucesso!");
-    navigate("/home");
-  };
-
   return (
-    <Grid container>
-      <Grid item xs={6}>
-        <img
-          src="src/assets/background.jpg"
-          alt="Background"
-          style={{ width: "100%", height: "100vh", objectFit: "cover" }}
-        />
-      </Grid>
-
+    <Grid
+      item
+      xs={6}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <Grid
         item
         xs={6}
@@ -74,18 +93,7 @@ function SignUp() {
               />
             </Grid>
             <Grid item xs={12}>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setLoading(true);
-                  handleSignUp({
-                    name,
-                    email,
-                    password,
-                  });
-                  setLoading(false);
-                }}
-              >
+              <form onSubmit={handleSignUp}>
                 <TextField
                   label="Nome"
                   variant="outlined"
@@ -93,6 +101,9 @@ function SignUp() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
+                  inputProps={{
+                    "data-testid": "name-input",
+                  }}
                 />
                 <TextField
                   label="Email"
@@ -102,6 +113,9 @@ function SignUp() {
                   onChange={(e) => setEmail(e.target.value)}
                   style={{ marginTop: "1rem" }}
                   required
+                  inputProps={{
+                    "data-testid": "email-input",
+                  }}
                 />
                 <TextField
                   label="Senha"
@@ -112,6 +126,9 @@ function SignUp() {
                   style={{ marginTop: "1rem" }}
                   required
                   type="password"
+                  inputProps={{
+                    "data-testid": "password-input",
+                  }}
                 />
 
                 <Button
@@ -120,6 +137,7 @@ function SignUp() {
                   type="submit"
                   disabled={loading}
                   fullWidth
+                  data-testid="submit-button"
                   style={{
                     marginTop: "1rem",
                     backgroundColor: "#FAC63C",
@@ -138,4 +156,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default SignupForm;
