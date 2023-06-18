@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -16,7 +16,13 @@ import {
 //   onClick: any;
 // }
 
-export default function DietModal({ open, setOpen, initialData, onClick }) {
+export default function DietModal({
+  open,
+  setOpen,
+  initialData,
+  onClick,
+  onClose,
+}) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [breakfast, setBreakfast] = useState("");
@@ -27,7 +33,10 @@ export default function DietModal({ open, setOpen, initialData, onClick }) {
 
   const readMode = !!initialData;
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    onClose();
+  };
 
   const handleSubmit = () => {
     const data = {
@@ -42,6 +51,16 @@ export default function DietModal({ open, setOpen, initialData, onClick }) {
 
     onClick(data);
   };
+
+  useEffect(() => {
+    setStartDate(initialData?.startDate?.split("T")?.at(0) || "");
+    setEndDate(initialData?.endDate?.split("T")?.at(0) || "");
+    setBreakfast(initialData?.breakfast || "");
+    setLunch(initialData?.lunch || "");
+    setDinner(initialData?.dinner || "");
+    setObservations(initialData?.observations || "");
+    setTitle(initialData?.title || "");
+  }, [initialData]);
 
   return (
     <div>
@@ -77,6 +96,9 @@ export default function DietModal({ open, setOpen, initialData, onClick }) {
                   required
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
+                  inputProps={{
+                    "data-testid": "nome",
+                  }}
                 />
               </Box>
 
@@ -92,6 +114,9 @@ export default function DietModal({ open, setOpen, initialData, onClick }) {
                   required
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
+                  inputProps={{
+                    "data-testid": "dataInicio",
+                  }}
                 />
               </Box>
               <Box gridColumn="span 4">
@@ -106,6 +131,9 @@ export default function DietModal({ open, setOpen, initialData, onClick }) {
                   required
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
+                  inputProps={{
+                    "data-testid": "dataTermino",
+                  }}
                 />
               </Box>
               <Box gridColumn="span 8">
@@ -122,6 +150,9 @@ export default function DietModal({ open, setOpen, initialData, onClick }) {
                   required
                   value={breakfast}
                   onChange={(e) => setBreakfast(e.target.value)}
+                  inputProps={{
+                    "data-testid": "cafeDaManha",
+                  }}
                 />
               </Box>
               <Box gridColumn="span 8">
@@ -138,6 +169,9 @@ export default function DietModal({ open, setOpen, initialData, onClick }) {
                   required
                   value={lunch}
                   onChange={(e) => setLunch(e.target.value)}
+                  inputProps={{
+                    "data-testid": "almoco",
+                  }}
                 />
               </Box>
               <Box gridColumn="span 8">
@@ -154,6 +188,9 @@ export default function DietModal({ open, setOpen, initialData, onClick }) {
                   required
                   value={dinner}
                   onChange={(e) => setDinner(e.target.value)}
+                  inputProps={{
+                    "data-testid": "janta",
+                  }}
                 />
               </Box>
               <Box gridColumn="span 8">
@@ -169,6 +206,9 @@ export default function DietModal({ open, setOpen, initialData, onClick }) {
                   InputLabelProps={{ shrink: true }}
                   value={observations}
                   onChange={(e) => setObservations(e.target.value)}
+                  inputProps={{
+                    "data-testid": "observacoes",
+                  }}
                 />
               </Box>
             </Box>
@@ -178,6 +218,7 @@ export default function DietModal({ open, setOpen, initialData, onClick }) {
                 variant="contained"
                 color="primary"
                 type="submit"
+                data-testid="submit-diet"
                 fullWidth
                 sx={{
                   margin: "32px 0",

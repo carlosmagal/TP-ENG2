@@ -27,8 +27,6 @@ function HomePage() {
       await api.post("/diet", data);
 
       await handleLoadUser();
-      setOpenModal(false);
-      setModalData(null);
     } catch (error) {
       console.log(error);
     }
@@ -37,8 +35,7 @@ function HomePage() {
   const handleLoadUser = async () => {
     try {
       const response = await api.get("/diet");
-      // setDiets(response?.data)
-      console.log(response);
+      setDiets(response?.data);
     } catch (error) {
       console.log(error);
     }
@@ -79,6 +76,7 @@ function HomePage() {
                   backgroundColor: "#FAC63C",
                   fontWeight: "900",
                 }}
+                data-testid="add-diet"
               >
                 Adicionar dieta
               </Button>
@@ -120,8 +118,13 @@ function HomePage() {
         open={openModal}
         setOpen={setOpenModal}
         initialData={modalData}
-        onClick={(data) => {
-          handleCreateDiet(data);
+        onClose={() => {
+          setModalData(null);
+        }}
+        onClick={async (data) => {
+          await handleCreateDiet(data);
+          setOpenModal(false);
+          setModalData(null);
         }}
       />
     </div>

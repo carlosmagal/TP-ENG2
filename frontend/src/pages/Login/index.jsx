@@ -26,7 +26,7 @@ function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-  
+
     try {
       const response = await api.post("/auth/signin", { email, password });
       saveToken(response.data);
@@ -44,14 +44,15 @@ function LoginPage() {
     const expirationTime = currentTime + expires_in * 1000;
     localStorage.setItem("token", access_token);
     localStorage.setItem("tokenExpiration", expirationTime);
-  }
+  };
 
   const handleLoginError = (error) => {
     let message = "Erro ao logar usuário";
-    if (error.response && error.response.status === 401) {
-      message = "Credenciais inválidas";
-    }
-    toast.error(message);
+
+    // if (error.response && error.response.data.statusCode === 401) {
+    //   message = error.response.data?.message || "Credenciais inválidas";
+    // }
+    toast.error(message, { autoClose: 10000 });
   };
 
   useEffect(() => {
@@ -111,6 +112,9 @@ function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  inputProps={{
+                    "data-testid": "email-input",
+                  }}
                 />
                 <TextField
                   label="Senha"
@@ -120,6 +124,9 @@ function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   style={{ marginTop: "1rem" }}
                   required
+                  inputProps={{
+                    "data-testid": "password-input",
+                  }}
                 />
                 <FormControlLabel
                   control={
@@ -137,6 +144,7 @@ function LoginPage() {
                   variant="contained"
                   color="primary"
                   type="submit"
+                  role="button"
                   fullWidth
                   style={{
                     marginTop: "1rem",
@@ -145,6 +153,7 @@ function LoginPage() {
                     color: "#553F04",
                   }}
                   disabled={loading}
+                  data-testid="submit-button"
                 >
                   Entrar
                 </Button>
