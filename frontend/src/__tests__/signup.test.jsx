@@ -19,7 +19,7 @@ function TestComponent() {
   );
 }
 
-describe("Login routine", () => {
+describe("Sign Up routine", () => {
   beforeAll(async () => {
     const email = "eeee@eee .com";
     const password = "123";

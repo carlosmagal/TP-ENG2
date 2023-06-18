@@ -145,7 +145,10 @@ function LoginForm() {
                 Entrar
               </Button>
               <Typography variant="body2" align="center" sx={{ mt: 2 }}>
-                Esqueceu a Senha? <Link to="/password-reset">Clique aqui</Link>
+                Esqueceu a Senha?{" "}
+                <Link to="/password-reset" data-testid="password-reset-btn">
+                  Clique aqui
+                </Link>
               </Typography>
 
               <Typography variant="body2" align="center" sx={{ mt: 4 }}>
