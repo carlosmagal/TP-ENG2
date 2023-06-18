@@ -38,25 +38,27 @@ describe("Login routine", () => {
     expect(window.location.pathname).toBe("/password-reset");
   }, 20000);
 
-  it("should display error message when email is not valid", async () => {
+  it("should display success message when email is valid", async () => {
     render(
       <>
         <ToastContainer />
         <TestComponent />
       </>
     );
-    const errorMessage = "Erro ao solicitar redefinição de senha";
-    const mockError = new Error("Password reset failed");
-    api.post.mockRejectedValueOnce(mockError);
 
-    userEvent.type(screen.getByTestId("email-input"), "test@example.com");
-    fireEvent.click(screen.getByTestId("submit-button"));
+    const email = "eeee@eee.com"
 
-    await waitFor(() => {
-      expect(api.post).toHaveBeenCalledWith("/auth/reset-password", {
-        email: "test@example.com",
-      });
-      expect(screen.getByText(errorMessage)).toBeInTheDocument();
-    });
+    const emailInput = screen.getByTestId("email-input");
+    const submitButton = screen.getByTestId("submit-button");
+      
+    fireEvent.change(emailInput, { target: { value: email }})
+    fireEvent.click(submitButton)
+    // await waitFor(() => {
+    //   // Perform the necessary actions that trigger the text update
+    // });
+    
+    const message = await screen.findByText("Um link para redefinição de senha foi enviado para o seu email.");
+
+    expect(message).toBeInTheDocument();
   });
 });

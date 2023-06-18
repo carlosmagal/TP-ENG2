@@ -26,14 +26,14 @@ function PasswordReset() {
   };
 
   const handlePasswordResetError = (error) => {
-    let message = "Erro ao solicitar redefinição de senha";
+    let message = "Erro ao redefinir senha";
 
     // Handle specific error responses if needed
     // if (error.response && error.response.data.statusCode === 404) {
     //   message = error.response.data?.message || "Usuário não encontrado";
     // }
 
-    toast.error(message, { autoClose: 10000 });
+    toast.error(message);
   };
   return (
     <Grid
