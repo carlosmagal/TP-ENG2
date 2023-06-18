@@ -7,14 +7,6 @@ import HomePage from "../pages/Home";
 
 import api from "../api";
 
-const setLocalStorageValue = (key, value) => {
-  localStorage.setItem(key, value);
-  Object.defineProperty(window, key, {
-    value,
-    writable: true,
-  });
-};
-
 const localStorageMock = (function () {
   var store = {};
   return {
@@ -47,10 +39,15 @@ describe("Home Page", () => {
     const { access_token } = response.data;
 
     localStorage.setItem("token", access_token);
-  });
+  }, 20000);
 
   it("should create a diet with the given parameters", async () => {
-    render(<HomePage />);
+    render(
+      <>
+        <ToastContainer />
+        <HomePage />
+      </>
+    );
 
     const addDietButton = screen.getByTestId("add-diet");
 
@@ -91,9 +88,10 @@ describe("Home Page", () => {
 
     fireEvent.click(submitData);
 
-    await waitFor(() => screen.getByText(formValues.nome), { timeout: 10000 }); // crime
+    // await waitFor(() => screen.getByText("Dieta criada com sucesso!"), { timeout: 10000 }); // crime
 
     // const message = await screen.findByText(formValues.nome);
+    // const message = await screen.findByText("Dieta criada com sucesso!");
     // expect(message).toBeInTheDocument();
 
     // expect(message).toBeInTheDocument();

@@ -9,9 +9,10 @@ import dietImages from "../../utils/dietImages";
 
 import "./styles.css";
 import api from "../../api";
+import { toast } from "react-toastify";
 
 function HomePage() {
-  const [username, setUsername] = useState("Fulano");
+  const [username, setUsername] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState(null);
 
@@ -25,6 +26,7 @@ function HomePage() {
   const handleCreateDiet = async (data) => {
     try {
       await api.post("/diet", data);
+      toast.success("Dieta criada com sucesso!");
 
       await handleLoadUser();
     } catch (error) {
@@ -63,7 +65,7 @@ function HomePage() {
                 }}
               />
               <Typography variant="h5" gutterBottom>
-                Olá, {username}!
+                Seja bem vindo!
               </Typography>
             </div>
             <div>

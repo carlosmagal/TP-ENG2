@@ -48,7 +48,7 @@ function LoginForm() {
 
   const handleLoginError = (error) => {
     let message = "Erro ao logar usuário";
-    console.log(error);
+    // console.log(error);
     // if (error.response && error.response.data.statusCode === 401) {
     //   message = error.response.data?.message || "Credenciais inválidas";
     // }

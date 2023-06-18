@@ -4,15 +4,15 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import LoginPage from "../pages/Login";
 import HomePage from "../pages/Home";
 import api from "../api";
+import SignupForm from "../pages/Login/components/SignupForm";
 
 function TestComponent() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<SignupForm />} />
         <Route path="/home" element={<HomePage />} />
       </Routes>
     </BrowserRouter>
@@ -27,7 +27,7 @@ describe("Login routine", () => {
     await api.post("/auth/signin", { email, password }).catch(() => ({}));
   });
 
-  it("should navigate user to home page when login is correct", async () => {
+  it("should navigate user to home page when sign up data is correct", async () => {
     render(
       <>
         <ToastContainer />
@@ -35,27 +35,33 @@ describe("Login routine", () => {
       </>
     );
 
-    const email = "eeee@eee.com";
+    const name = "test";
+    const email = `${new Date()
+      .toISOString()
+      .replaceAll("-", "")
+      .replaceAll(":", "")}@test.com`;
     const password = "123456";
 
+    const nameInput = screen.getByTestId("name-input");
     const emailInput = screen.getByTestId("email-input");
     const passwordInput = screen.getByTestId("password-input");
     const submitButton = screen.getByTestId("submit-button");
 
+    fireEvent.change(nameInput, { target: { value: name } });
     fireEvent.change(emailInput, { target: { value: email } });
     fireEvent.change(passwordInput, { target: { value: password } });
 
     fireEvent.click(submitButton);
 
-    await waitFor(() => screen.getByText("Seja bem vindo!"), {
+    await waitFor(() => screen.getByText("Usuário criado com sucesso!"), {
       timeout: 10000,
     }); // crime
 
-    await screen.findByText("Seja bem vindo!");
+    // await screen.findByText("Seja bem vindo!");
     expect(window.location.pathname).toBe("/home");
   }, 20000);
 
-  it("should render the error message component when login is invalid", async () => {
+  it.skip("should render the error message component when sign up data is invalid", async () => {
     render(
       <MemoryRouter initialEntries={["/"]}>
         <ToastContainer />

@@ -24,7 +24,7 @@ function SignupForm() {
         email,
         password,
       };
-      createUser(userData);
+      await createUser(userData);
       toast.success("Usuário criado com sucesso!");
       navigate("/home");
     } catch (error) {
@@ -101,6 +101,9 @@ function SignupForm() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
+                  inputProps={{
+                    "data-testid": "name-input",
+                  }}
                 />
                 <TextField
                   label="Email"
@@ -110,6 +113,9 @@ function SignupForm() {
                   onChange={(e) => setEmail(e.target.value)}
                   style={{ marginTop: "1rem" }}
                   required
+                  inputProps={{
+                    "data-testid": "email-input",
+                  }}
                 />
                 <TextField
                   label="Senha"
@@ -120,6 +126,9 @@ function SignupForm() {
                   style={{ marginTop: "1rem" }}
                   required
                   type="password"
+                  inputProps={{
+                    "data-testid": "password-input",
+                  }}
                 />
 
                 <Button
@@ -128,6 +137,7 @@ function SignupForm() {
                   type="submit"
                   disabled={loading}
                   fullWidth
+                  data-testid="submit-button"
                   style={{
                     marginTop: "1rem",
                     backgroundColor: "#FAC63C",
