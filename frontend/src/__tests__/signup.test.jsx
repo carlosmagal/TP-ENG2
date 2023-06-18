@@ -61,26 +61,30 @@ describe("Sign Up routine", () => {
     expect(window.location.pathname).toBe("/home");
   }, 20000);
 
-  it.skip("should render the error message component when sign up data is invalid", async () => {
+  it("should render the error message component when sign up data is invalid", async () => {
     render(
       <MemoryRouter initialEntries={["/"]}>
         <ToastContainer />
-        <LoginPage />
+        <SignupForm />
       </MemoryRouter>
     );
 
-    const email = "teste @login.com";
+    const name = "name";
+    const email = "emailerrado";
     const password = "123456";
 
+    const nameInput = screen.getByTestId("name-input");
     const emailInput = screen.getByTestId("email-input");
     const passwordInput = screen.getByTestId("password-input");
     const submitButton = screen.getByTestId("submit-button");
 
+    fireEvent.change(nameInput, { target: { value: name } });
     fireEvent.change(emailInput, { target: { value: email } });
     fireEvent.change(passwordInput, { target: { value: password } });
+
     fireEvent.click(submitButton);
 
-    const message = await screen.findByText("Erro ao logar usuário");
+    const message = await screen.findByText("Erro ao criar usuário");
 
     expect(message).toBeInTheDocument();
   });

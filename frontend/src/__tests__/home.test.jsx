@@ -35,9 +35,11 @@ describe("Home Page", () => {
       writable: true,
     });
 
-    const response = await api.post("/auth/signin", { email, password });
-    const { access_token } = response.data;
+    const response = await api
+      .post("/auth/signin", { email, password })
+      .catch(() => ({}));
 
+    const { access_token } = response.data;
     localStorage.setItem("token", access_token);
   }, 20000);
 
