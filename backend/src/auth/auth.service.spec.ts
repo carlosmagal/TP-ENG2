@@ -86,6 +86,8 @@ describe('AuthService', () => {
       };
       jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(user);
       jest.spyOn(jwtService, 'signAsync').mockResolvedValue('token');
+      jest.spyOn(argon, 'verify').mockResolvedValue(true);
+
       jest.spyOn(configService, 'getOrThrow').mockReturnValue('jwt_secret');
 
       expect((await authService.signin(dto)).access_token).toBeDefined();
