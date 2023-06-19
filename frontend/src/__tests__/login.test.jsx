@@ -25,7 +25,7 @@ describe("Login routine", () => {
     const password = "123";
 
     await api.post("/auth/signin", { email, password }).catch(() => ({}));
-  });
+  }, 40000);
 
   it("should navigate user to home page when login is correct", async () => {
     render(
