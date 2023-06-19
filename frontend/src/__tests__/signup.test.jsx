@@ -36,10 +36,7 @@ describe("Sign Up routine", () => {
     );
 
     const name = "test";
-    const email = `${new Date()
-      .toISOString()
-      .replaceAll("-", "")
-      .replaceAll(":", "")}@test.com`;
+    const email = `test${(Math.random() * 1000).toFixed(4)}@test.com`;
     const password = "123456";
 
     const nameInput = screen.getByTestId("name-input");
