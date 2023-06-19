@@ -1,6 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DietController } from './diet.controller';
 import { DietService } from './diet.service';
+import { ConfigModule } from '@nestjs/config';
+import { PrismaModule } from 'src/prisma/prisma.module';
+import { JwtModule } from '@nestjs/jwt';
 
 const mockDiet = {
   breakfast: '',
@@ -22,6 +25,14 @@ describe('DietController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [
+        PrismaModule,
+        ConfigModule.forRoot({ isGlobal: true }),
+        JwtModule.register({
+          secretOrPrivateKey: `secret`,
+          global: true,
+        }),
+      ],
       controllers: [DietController],
       providers: [DietService],
     }).compile();

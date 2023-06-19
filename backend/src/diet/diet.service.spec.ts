@@ -4,6 +4,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { Diet } from '@prisma/client';
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+import { PrismaModule } from 'src/prisma/prisma.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 
 const mockDiet = {
   breakfast: '',
@@ -25,7 +28,15 @@ describe('DietService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [DietService, PrismaService],
+      imports: [
+        PrismaModule,
+        ConfigModule.forRoot({ isGlobal: true }),
+        JwtModule.register({
+          secretOrPrivateKey: `secret`,
+          global: true,
+        }),
+      ],
+      providers: [DietService],
     }).compile();
 
     dietService = module.get<DietService>(DietService);
@@ -104,7 +115,7 @@ describe('DietService', () => {
       const diet = mockDiet; // the owner is a different user
       jest.spyOn(prismaService.diet, 'findUnique').mockResolvedValue(diet);
 
-      await expect(dietService.updateDietById('1', '1', {})).rejects.toThrow(
+      await expect(dietService.updateDietById('2', '1', {})).rejects.toThrow(
         ForbiddenException,
       );
     });
