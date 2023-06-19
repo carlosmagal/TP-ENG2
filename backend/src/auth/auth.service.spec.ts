@@ -25,7 +25,7 @@ describe('AuthService', () => {
           global: true,
         }),
       ],
-      providers: [AuthService, PrismaService, JwtService, ConfigService],
+      providers: [AuthService, JwtService, ConfigService],
     }).compile();
 
     authService = module.get<AuthService>(AuthService);
