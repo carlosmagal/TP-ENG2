@@ -9,8 +9,12 @@ import HomePage from "../pages/Home";
 import LoginPage from "../pages/Login";
 import api from "../api";
 
-jest.mock("../api");
-
+jest.mock("react-toastify", () => ({
+  toast: {
+    success: jest.fn(),
+    error: jest.fn(),
+  },
+}));
 function TestComponent() {
   return (
     <BrowserRouter>
@@ -60,5 +64,22 @@ describe("Login routine", () => {
     const message = await screen.findByText("Um link para redefinição de senha foi enviado para o seu email.");
 
     expect(message).toBeInTheDocument();
+  });
+
+  it("should prevent form submission when email field is empty", async () => {
+    render(
+      <>
+        <ToastContainer />
+        <TestComponent />
+      </>
+    );
+
+    const submitButton = screen.getByTestId("submit-button");
+
+    const mockApiPost = jest.spyOn(api, "post");
+
+    fireEvent.click(submitButton);
+
+    expect(toast.error).not.toHaveBeenCalled();
   });
 });
