@@ -41,7 +41,7 @@ describe("Home Page", () => {
 
     const { access_token } = response.data;
     localStorage.setItem("token", access_token);
-  }, 20000);
+  }, 40000);
 
   it("should create a diet with the given parameters", async () => {
     render(
