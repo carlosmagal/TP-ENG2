@@ -34,6 +34,17 @@ function HomePage() {
     }
   };
 
+  const handleUpdateDiet = async (data) => {
+    try {
+      await api.patch(`/diet/${modalData?.id}`, data);
+      toast.success("Dieta editada com sucesso!");
+
+      await handleLoadUser();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleLoadUser = async () => {
     try {
       const response = await api.get("/diet");
@@ -124,7 +135,12 @@ function HomePage() {
           setModalData(null);
         }}
         onClick={async (data) => {
-          await handleCreateDiet(data);
+          if (modalData) {
+            await handleUpdateDiet(data);
+          } else {
+            await handleCreateDiet(data);
+          }
+
           setOpenModal(false);
           setModalData(null);
         }}

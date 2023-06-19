@@ -86,7 +86,7 @@ export default function DietModal({
             <Box display="grid" gridTemplateColumns="repeat(8, 1fr)" gap={2}>
               <Box gridColumn="span 8">
                 <TextField
-                  disabled={readMode}
+                  // disabled={readMode}
                   margin="dense"
                   label="Nome"
                   type="text"
@@ -104,7 +104,7 @@ export default function DietModal({
 
               <Box gridColumn="span 4">
                 <TextField
-                  disabled={readMode}
+                  // disabled={readMode}
                   margin="dense"
                   label="Data de início"
                   type="date"
@@ -121,7 +121,7 @@ export default function DietModal({
               </Box>
               <Box gridColumn="span 4">
                 <TextField
-                  disabled={readMode}
+                  // disabled={readMode}
                   margin="dense"
                   label="Data de término"
                   type="date"
@@ -138,7 +138,7 @@ export default function DietModal({
               </Box>
               <Box gridColumn="span 8">
                 <TextField
-                  disabled={readMode}
+                  // disabled={readMode}
                   margin="dense"
                   label="Café da manhã"
                   type="text"
@@ -157,7 +157,7 @@ export default function DietModal({
               </Box>
               <Box gridColumn="span 8">
                 <TextField
-                  disabled={readMode}
+                  // disabled={readMode}
                   margin="dense"
                   label="Almoço"
                   type="text"
@@ -176,7 +176,7 @@ export default function DietModal({
               </Box>
               <Box gridColumn="span 8">
                 <TextField
-                  disabled={readMode}
+                  // disabled={readMode}
                   margin="dense"
                   label="Janta"
                   type="text"
@@ -195,7 +195,7 @@ export default function DietModal({
               </Box>
               <Box gridColumn="span 8">
                 <TextField
-                  disabled={readMode}
+                  // disabled={readMode}
                   margin="dense"
                   label="Observações"
                   type="text"
@@ -213,7 +213,7 @@ export default function DietModal({
               </Box>
             </Box>
 
-            {!readMode && (
+            {/* {!readMode && ( */}
               <Button
                 variant="contained"
                 color="primary"
@@ -230,7 +230,7 @@ export default function DietModal({
               >
                 Salvar dieta
               </Button>
-            )}
+            {/* )} */}
           </form>
         </DialogContent>
       </Dialog>
